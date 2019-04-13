@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 
 // Compile SASS into CSS and auto-inject into browsers
@@ -18,13 +18,13 @@ gulp.task('js', function () {
 });
 
 // Static Server + watching scss / html files
-gulp.task('serve', gulp.parallel('sass'), function () {
+gulp.task('serve', gulp.series('sass'), function () {
 
     browserSync.init({
-        server: "src"
+        server: "./src"
     });
 
-    gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'src/scss/*.scss'], gulp.parallel('scss'));
+    gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'src/scss/*.scss'], gulp.series('scss'));
     gulp.watch("src/*.html").on('change', browserSync.reload);
 
 });
